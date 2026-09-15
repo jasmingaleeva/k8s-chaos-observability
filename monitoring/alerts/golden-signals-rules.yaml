@@ -1,0 +1,53 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: boutique-sre-alerts
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+    role: alert-rules
+spec:
+  groups:
+    - name: boutique.sre.golden-signals
+      rules:
+        - alert: CartServicePodDown
+          expr: count(kube_pod_status_phase{namespace="boutique", pod=~"cartservice.*", phase="Running"}) == 0
+          for: 15s
+          labels:
+            severity: critical
+            app: cartservice
+            namespace: boutique
+          annotations:
+            summary: "🔥 CartService is completely unavailable"
+            description: "No running cartservice pod found in namespace boutique. Users cannot access cart or checkout!"
+
+        - alert: MicroserviceRestartSpike
+          expr: sum(increase(kube_pod_container_status_restarts_total{namespace="boutique"}[3m])) by (pod, namespace) > 0
+          for: 15s
+          labels:
+            severity: warning
+            namespace: boutique
+          annotations:
+            summary: "⚠️ Microservice Pod Restart Spike"
+            description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} has restarted unexpectedly (Chaos Mesh pod-kill or OOMKilled)."
+
+        - alert: FrontendCPUSaturation
+          expr: sum(rate(container_cpu_usage_seconds_total{namespace="boutique", pod=~"frontend.*", container!=""}[1m])) > 0.3
+          for: 30s
+          labels:
+            severity: warning
+            app: frontend
+            namespace: boutique
+          annotations:
+            summary: "📈 Frontend Service CPU Saturation"
+            description: "Frontend CPU usage exceeded 300m cores for more than 30 seconds."
+
+        - alert: ServiceDegradedUnreadyPods
+          expr: count(kube_pod_status_phase{namespace="boutique", phase!="Running"}) > 0
+          for: 30s
+          labels:
+            severity: critical
+            namespace: boutique
+          annotations:
+            summary: "🚨 Degraded Service Health in Boutique Namespace"
+            description: "One or more pods in namespace boutique are not in Running state."

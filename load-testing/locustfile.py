@@ -71,6 +71,7 @@ class BoutiqueCustomerUser(HttpUser):
                 "country": "Russia",
                 "credit_card_number": "4111111111111111",
                 "credit_card_expiration_month": "12",
+                "credit_card_expiration_year": "2028",
                 "credit_card_cvv": "123",
             },
             name="POST /cart/checkout",

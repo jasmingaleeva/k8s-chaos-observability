@@ -48,11 +48,7 @@ alertmanager:
   alertmanagerSpec:
     retention: 24h
     storage:
-      volumeClaimTemplate:
-        spec:
-          resources:
-            requests:
-              storage: 1Gi
+      emptyDir: {}
   config:
     global:
       resolve_timeout: 5m

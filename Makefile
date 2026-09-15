@@ -77,9 +77,9 @@ status:
 	@echo "=================================================="
 	@echo "            k8s-chaos-observability URLs          "
 	@echo "=================================================="
-	@echo "  🛒 Online Boutique App : http://localhost:8080"
-	@echo "  📊 Grafana SRE Dashboard : http://localhost:3000 (admin / admin)"
-	@echo "  ⚡ Chaos Mesh Dashboard : http://localhost:2333"
+	@echo "  Online Boutique App    : http://localhost:8080"
+	@echo "  Grafana SRE Dashboard  : http://localhost:3000 (admin / admin)"
+	@echo "  Chaos Mesh Dashboard   : http://localhost:2333"
 	@echo "=================================================="
 	@kubectl get pods -A
 

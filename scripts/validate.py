@@ -16,6 +16,7 @@ def validate_yaml_files():
         "chaos/*.yaml",
         "cluster/*.yaml",
         "monitoring/**/*.yaml",
+        "load-testing/*.yaml",
     ]
     files = []
     for pattern in patterns:

@@ -1,0 +1,86 @@
+# Custom Helm values for kube-prometheus-stack in local KinD chaos-lab
+# Optimized for low memory footprint and seamless dashboard & alert provisioning
+
+prometheus:
+  prometheusSpec:
+    # Allows Prometheus to find ServiceMonitors and PrometheusRules in ANY namespace
+    # without requiring helm release labels (Critical SRE best-practice)
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    
+    retention: 12h
+    storageSpec:
+      emptyDir: {}
+    resources:
+      requests:
+        cpu: 100m
+        memory: 350Mi
+      limits:
+        cpu: 500m
+        memory: 1024Mi
+
+grafana:
+  adminPassword: admin
+  service:
+    type: NodePort
+    nodePort: 31000 # Mapped to localhost:3000 via KinD extraPortMappings
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      labelValue: "1"
+      searchNamespace: ALL
+    datasources:
+      enabled: true
+      label: grafana_datasource
+      labelValue: "1"
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+
+alertmanager:
+  alertmanagerSpec:
+    retention: 24h
+    storage:
+      volumeClaimTemplate:
+        spec:
+          resources:
+            requests:
+              storage: 1Gi
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      group_by: ['alertname', 'namespace', 'job']
+      group_wait: 10s
+      group_interval: 30s
+      repeat_interval: 1h
+      receiver: 'telegram-notifications'
+      routes:
+      - matchers:
+        - alertname = Watchdog
+        receiver: 'null'
+    receivers:
+    - name: 'null'
+    - name: 'telegram-notifications'
+      telegram_configs:
+      - bot_token: "TELEGRAM_BOT_TOKEN_PLACEHOLDER"
+        chat_id: 0
+        send_resolved: true
+        parse_mode: 'HTML'
+        message: |
+          {{ if eq .Status "firing" }}🔥 <b>[FIRING:{{ .Alerts.Firing | len }}] {{ .CommonLabels.alertname }}</b>{{ else }}✅ <b>[RESOLVED] {{ .CommonLabels.alertname }}</b>{{ end }}
+          <b>Severity:</b> <code>{{ .CommonLabels.severity }}</code>
+          <b>Service:</b> <code>{{ .CommonLabels.app | default .CommonLabels.job }}</code>
+          <b>Namespace:</b> <code>{{ .CommonLabels.namespace }}</code>
+          
+          <b>Summary:</b> {{ .CommonAnnotations.summary }}
+          <b>Description:</b> {{ .CommonAnnotations.description }}
+          
+          <i>Timestamp: {{ (index .Alerts 0).StartsAt.Format "2006-01-02 15:04:05" }}</i>

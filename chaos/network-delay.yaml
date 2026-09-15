@@ -1,0 +1,18 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: network-delay-catalog
+  namespace: boutique
+spec:
+  action: delay
+  mode: all
+  selector:
+    namespaces:
+      - boutique
+    labelSelectors:
+      app: productcatalogservice
+  delay:
+    latency: "500ms"
+    jitter: "50ms"
+  direction: to
+  duration: "5m"

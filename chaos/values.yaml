@@ -1,0 +1,11 @@
+# Chaos Mesh Helm values for KinD local lab
+chaosDaemon:
+  runtime: containerd
+  socketPath: /run/containerd/containerd.sock
+
+dashboard:
+  create: true
+  securityMode: false # Simplifies access for local development / portfolio demo
+  service:
+    type: NodePort
+    nodePort: 32333 # Accessible via localhost:2333 on host

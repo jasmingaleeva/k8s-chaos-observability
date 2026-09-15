@@ -18,7 +18,7 @@ spec:
             app: cartservice
             namespace: boutique
           annotations:
-            summary: "🔥 CartService is completely unavailable"
+            summary: "CartService is completely unavailable"
             description: "No running cartservice pod found in namespace boutique. Users cannot access cart or checkout!"
 
         - alert: MicroserviceRestartSpike
@@ -28,7 +28,7 @@ spec:
             severity: warning
             namespace: boutique
           annotations:
-            summary: "⚠️ Microservice Pod Restart Spike"
+            summary: "Microservice Pod Restart Spike"
             description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} has restarted unexpectedly (Chaos Mesh pod-kill or OOMKilled)."
 
         - alert: FrontendCPUSaturation
@@ -39,7 +39,7 @@ spec:
             app: frontend
             namespace: boutique
           annotations:
-            summary: "📈 Frontend Service CPU Saturation"
+            summary: "Frontend Service CPU Saturation"
             description: "Frontend CPU usage exceeded 300m cores for more than 30 seconds."
 
         - alert: ServiceDegradedUnreadyPods
@@ -49,5 +49,5 @@ spec:
             severity: critical
             namespace: boutique
           annotations:
-            summary: "🚨 Degraded Service Health in Boutique Namespace"
+            summary: "Degraded Service Health in Boutique Namespace"
             description: "One or more pods in namespace boutique are not in Running state."

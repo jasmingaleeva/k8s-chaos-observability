@@ -20,7 +20,7 @@ data:
           "collapsed": false,
           "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
           "id": 100,
-          "title": "🎯 SRE Golden Signal: Traffic",
+          "title": "SRE Golden Signal: Traffic",
           "type": "row"
         },
         {
@@ -65,7 +65,7 @@ data:
           "collapsed": false,
           "gridPos": { "h": 1, "w": 24, "x": 0, "y": 8 },
           "id": 101,
-          "title": "⚠️ SRE Golden Signal: Errors & Availability",
+          "title": "SRE Golden Signal: Errors & Availability",
           "type": "row"
         },
         {
@@ -117,7 +117,7 @@ data:
           "collapsed": false,
           "gridPos": { "h": 1, "w": 24, "x": 0, "y": 16 },
           "id": 102,
-          "title": "📈 SRE Golden Signal: Saturation (CPU & Memory)",
+          "title": "SRE Golden Signal: Saturation (CPU & Memory)",
           "type": "row"
         },
         {
@@ -148,7 +148,7 @@ data:
           "fieldConfig": {
             "defaults": {
               "custom": { "drawStyle": "line", "lineInterpolation": "smooth" },
-              "unit": "decmbytes"
+              "unit": "mbytes"
             }
           },
           "targets": [
@@ -162,7 +162,7 @@ data:
           "collapsed": false,
           "gridPos": { "h": 1, "w": 24, "x": 0, "y": 24 },
           "id": 103,
-          "title": "📜 Centralized Logs: Loki Live Stream",
+          "title": "Centralized Logs: Loki Live Stream",
           "type": "row"
         },
         {

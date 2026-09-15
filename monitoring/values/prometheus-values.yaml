@@ -71,7 +71,7 @@ alertmanager:
         send_resolved: true
         parse_mode: 'HTML'
         message: |
-          {{ if eq .Status "firing" }}🔥 <b>[FIRING:{{ .Alerts.Firing | len }}] {{ .CommonLabels.alertname }}</b>{{ else }}✅ <b>[RESOLVED] {{ .CommonLabels.alertname }}</b>{{ end }}
+          {{ if eq .Status "firing" }}<b>[FIRING:{{ .Alerts.Firing | len }}] {{ .CommonLabels.alertname }}</b>{{ else }}<b>[RESOLVED] {{ .CommonLabels.alertname }}</b>{{ end }}
           <b>Severity:</b> <code>{{ .CommonLabels.severity }}</code>
           <b>Service:</b> <code>{{ .CommonLabels.app | default .CommonLabels.job }}</code>
           <b>Namespace:</b> <code>{{ .CommonLabels.namespace }}</code>

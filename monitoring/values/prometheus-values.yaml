@@ -38,11 +38,11 @@ grafana:
       labelValue: "1"
   resources:
     requests:
-      cpu: 50m
-      memory: 128Mi
-    limits:
-      cpu: 250m
+      cpu: 100m
       memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 512Mi
 
 alertmanager:
   alertmanagerSpec:
@@ -66,8 +66,8 @@ alertmanager:
     - name: 'null'
     - name: 'telegram-notifications'
       telegram_configs:
-      - bot_token: "TELEGRAM_BOT_TOKEN_PLACEHOLDER"
-        chat_id: 0
+      - bot_token: "1234567890:ABCdefGHIjklMNOpqrsTUVwxyz"
+        chat_id: 123456789
         send_resolved: true
         parse_mode: 'HTML'
         message: |
